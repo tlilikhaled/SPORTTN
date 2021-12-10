@@ -1,0 +1,75 @@
+{% extends  './BaseProfil.html' %}
+{% block content %}
+{% load static %}
+
+<style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 99.5%;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customers tr:hover {background-color: #ddd;}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+    <br><br>
+<h1 style="margin-left: 36%;">Liste des Commandes</h1>
+
+<table id="customers">
+    
+  <tr>
+    <th>Numero</th>
+    <th>Date Commande</th>
+    <th>Transaction Compléte</th>
+    <th>Montant Payé</th>
+    <th>Action</th>
+    
+  </tr>
+  
+  {% for o in Ord %}
+  
+  {% if user.is_authenticated %} 
+  
+  <tr>
+    
+    {% if o.customer.id == user.id%} 
+    <td>{{o.id}}</td>
+    <td>{{o.date_ordered}}</td>
+    <td>{% if o.complete == True %}OUI{% else %}NON{% endif %}</td>
+    <td>{{o.get_cart_total}}DT</td>
+    <td><a style="background-color: #1976d2;
+      font-size: 14px;
+      padding: 8px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      color: #fff;" href="{% url 'detailscommande'  o.id %}" >
+      <span><strong> Détails des Commandes</strong></span>
+      </a></td>
+    
+    {% endif %}
+    
+  </tr>
+  
+  
+  {% endif %}
+  {% endfor %}
+  
+</table>
+<br><br>
+
+{%  endblock content  %}
